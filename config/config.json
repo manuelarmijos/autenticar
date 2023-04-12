@@ -1,0 +1,23 @@
+{
+	"development": {
+		"username": "M4nu3l4rm1j0s",
+		"password": "UayN7X**J8YsH3!q*9W_wirk_ALHCM",
+		"database": "ktaxitt",
+		"host": "169.62.217.189",
+		"dialect": "mysql"
+	},
+	"test": {
+		"username": "solicitudes",
+		"password": "Solicitudes.",
+		"database": "ktaxi",
+		"host": "127.0.0.1",
+		"dialect": "mysql"
+	},
+	"production": {
+		"username": "solicitudes",
+		"password": "Solicitudes.",
+		"database": "ktaxi",
+		"host": "127.0.0.1",
+		"dialect": "mysql"
+	}
+}
