@@ -21,6 +21,7 @@ module.exports = {
 	autenticar(req, res) {
 		console.log('Dentro del recurso para autenticar cliente')
 		console.log(req.body)
+		console.log(req.params)
 		console.log(process.env.SECRET)
 		return autenticarCliente
 			.findAll({
