@@ -20,7 +20,7 @@ module.exports = {
 	 */
 	autenticar(req, res) {
 		console.log('Dentro del recurso para autenticar cliente')
-		console.log(req.body)
+		console.log(req)
 		console.log(process.env.SECRET)
 		return autenticarCliente
 			.findAll({
@@ -34,13 +34,13 @@ module.exports = {
 			})
 			.then(cliente => {
 				console.log(cliente)
-				if(cliente.length == 0)
+				if (cliente.length == 0)
 					return res.status(200).send({
 						en: -1,
 						m: 'No se logró identificar al usuario ingresado'
 					})
-				jwt.sign({ cliente }, process.env.SECRETTOKEN,  function(err, token) {
-					if(err) {
+				jwt.sign({ cliente }, process.env.SECRETTOKEN, function (err, token) {
+					if (err) {
 						console.log(err)
 						return res.status(200).send({
 							en: -1,
