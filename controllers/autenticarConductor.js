@@ -94,7 +94,9 @@ module.exports = {
                             apellido: conductor[0].dataValues.apellido,
                             idCliente: d.idCliente,
                             nombreCliente: d.nombreCliente,
-                            apellidoCliente: d.apellidoCliente
+                            apellidoCliente: d.apellidoCliente,
+                            callePrincipal: d.callePrincipal,
+                            calleSecundaria: d.calleSecundaria
                         }
                         var queue = 'enviarEmit';
                         console.log('Enviando la información del conductor')
