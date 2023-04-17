@@ -59,8 +59,9 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 			var secs = msg.content.toString().split('.').length - 1;
 			console.log('Recibiendo mensaje de Solicitud')
 			console.log(" Data recibida", msg.content.toString());
-			console.log(msg.content)
-			var d = JSON.parse(msg.content.toString)
+			let b = msg.content.toString();
+			console.log(b.idCliente)
+			var d = JSON.parse(msg.content.toString())
 			console.log(d)
 			conductor.buscarCondcutorLibre(d.idCliente);
 			setTimeout(function () {
