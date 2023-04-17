@@ -43,7 +43,7 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 		var queue1 = 'asignarConductor';
 		var msg = 'Hola manolo';
 
-		channel.assertQueue(queue, {
+		channel.assertQueue(queue1, {
 			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
 			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
 		});
