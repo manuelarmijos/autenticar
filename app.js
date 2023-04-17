@@ -44,6 +44,7 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 		rabbit = channel;
 		var queue = 'enviarEmit';
 		var queue1 = 'asignarConductor';
+		var queue2 = 'cambioSolicitud';
 		var msg = 'Hola manolo';
 
 		rabbit.assertQueue(queue1, {
@@ -54,7 +55,10 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
 			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
 		});
-
+		rabbit.assertQueue(queue2, {
+			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
+			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
+		});
 		rabbit.consume(queue1, function (msg) {
 			var secs = msg.content.toString().split('.').length - 1;
 			console.log('Recibiendo mensaje de Solicitud')

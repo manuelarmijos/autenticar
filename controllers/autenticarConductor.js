@@ -105,6 +105,19 @@ module.exports = {
                         });
                         console.log('Mensaje enviado')
                         actualizarConductorEstado(conductor[0].dataValues.id);
+
+                        var queue = 'cambioSolicitud';
+                        console.log('Enviando la información para el cambio de estado solicitud')
+                        rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({
+                            idSolicitud: d.idSolicitud,
+                            idConductor: conductor[0].dataValues.id
+                        })), {
+                            persistent: true
+                        });
+                        console.log('Mensaje enviado para cambiar el estado de la solicitud')
+                        actualizarConductorEstado(conductor[0].dataValues.id);
+
+
                     } else {
                         var queue = 'enviarEmit';
                         console.log('Enviando la información del conductor')
