@@ -69,7 +69,7 @@ module.exports = {
                 error
             }))
     },
-    buscarCondcutorLibre() {
+    buscarCondcutorLibre(idCliente) {
         console.log('Buscado conductor disponible para asignar la carrera')
         autenticarConductor.findAll({
             attributes: ['id', 'nombre', 'apellido'],
@@ -92,6 +92,7 @@ module.exports = {
                             id: conductor[0].dataValues.id,
                             nombre: conductor[0].dataValues.nombre,
                             apellido: conductor[0].dataValues.apellido,
+                            idCliente: idCliente
                         }
                         var queue = 'enviarEmit';
                         console.log('Enviando la información del conductor')
