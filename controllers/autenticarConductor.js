@@ -19,7 +19,7 @@ module.exports = {
      * @param {*} res
      */
     autenticar(req, res) {
-        console.log('Dentro del recurso para autenticar cliente')
+        console.log('Dentro del recurso para autenticar CONDUCTOR')
         console.log(req.body)
         console.log(process.env.SECRET)
         return autenticarConductor
