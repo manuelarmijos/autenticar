@@ -100,6 +100,7 @@ module.exports = {
                             persistent: true
                         });
                         console.log('Mensaje enviado')
+
                     } else {
                         var queue = 'enviarEmit';
                         console.log('Enviando la información del conductor')
@@ -116,8 +117,24 @@ module.exports = {
                 rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1 })), {
                     persistent: true
                 });
-                console.log('Mensaje enviado')
+                console.log('Mensaje enviado');
+                actualizarConductorEstado(conductor.id);
             })
     }
 
+}
+
+const actualizarConductorEstado = (idConductor) => {
+    console.log('Cambiando el estado del conductor')
+    conductor.update({ estado: 2 }, {
+        where: {
+            id: idConductor
+        }
+    })
+        .then(conductor => {
+            console.log(conductor)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
