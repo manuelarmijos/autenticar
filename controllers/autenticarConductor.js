@@ -71,7 +71,7 @@ module.exports = {
     },
     buscarCondcutorLibre() {
         console.log('Buscado conductor disponible para asignar la carrera')
-        conductor.findAll({
+        autenticarConductor.findAll({
             attributes: ['id', 'nombre', 'apellido'],
             where: {
                 habilitado: 1,
