@@ -114,7 +114,7 @@ module.exports = {
                 console.log(error)
                 var queue = 'enviarEmit';
                 console.log('Enviando la información del conductor')
-                rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1 })), {
+                rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1, idCliente: idCliente })), {
                     persistent: true
                 });
                 console.log('Mensaje enviado');
