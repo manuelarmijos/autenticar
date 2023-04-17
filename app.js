@@ -24,6 +24,45 @@ app.use(cors({
 	credentials: true
 }))
 
+amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connection) {
+	if (error0) {
+		console.log('ERROR NO SE PUDO CONECTARSE CON RABBIT')
+		console.log(error0)
+		throw error0;
+	}
+	connection.createChannel(function (error1, channel) {
+		console.log('rabit fue conectado correctamente')
+		if (error1) {
+			console.log('Erro en la coneccioón a rabbit')
+			console.log(error1)
+			throw error1;
+		}
+		rabbit = channel;
+		var queue = 'hello1';
+		var queue1 = 'asignarConductor';
+		var msg = 'Hola manolo';
+
+		channel.assertQueue(queue, {
+			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
+			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
+		});
+
+		channel.consume(queue1, function (msg) {
+			var secs = msg.content.toString().split('.').length - 1;
+			console.log('Recibiendo mensaje de Solicitud')
+			console.log(" Data recibida", msg.content.toString());
+			setTimeout(function () {
+				console.log(" [x] Done");
+				channel.ack(msg); // ACK permite avisar a rabbit que el mensaje ya fue procesado y se puede eliminar
+			}, 10000);
+		}, {
+			// noAck: true Una vez que llego el mensaje no se vuelve a notificar si pasa algo
+			noAck: false // Recuperar mensajes perdidos si por A o B razones se desconecta automaticamente se vuelven a enviar
+		});
+	});
+
+});
+
 // Setting up the welcome message
 require('./routes')(app);
 
