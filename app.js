@@ -3,6 +3,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 var cors = require('cors')
 require('dotenv').config({ path: 'default.env' })
+var amqp = require('amqplib/callback_api');
 
 const http = require('http');
 
