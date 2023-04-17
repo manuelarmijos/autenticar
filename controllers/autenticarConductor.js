@@ -34,13 +34,13 @@ module.exports = {
             })
             .then(conductor => {
                 console.log(conductor)
-                if(conductor.length == 0)
+                if (conductor.length == 0)
                     return res.status(200).send({
                         en: -1,
                         m: 'No se logró identificar al conductor ingresado'
                     })
-                jwt.sign({ conductor }, process.env.SECRETTOKEN,  function(err, token) {
-                    if(err) {
+                jwt.sign({ conductor }, process.env.SECRETTOKEN, function (err, token) {
+                    if (err) {
                         console.log(err)
                         return res.status(200).send({
                             en: -1,
@@ -68,6 +68,55 @@ module.exports = {
                 en: -1,
                 error
             }))
+    },
+    buscarCondcutorLibre() {
+        console.log('Buscado conductor disponible para asignar la carrera')
+        conductor.findAll({
+            attributes: ['id', 'nombre', 'apellido'],
+            where: {
+                habilitado: 1,
+                estado: 1
+            },
+            limit: 1
+        })
+            .then(conductor => {
+                // console.log(conductor)
+                console.log(conductor.length)
+                console.log(conductor[0])
+                console.log(conductor[0].dataValues)
+                console.log(conductor[0].dataValues.id)
+                if (conductor && conductor.length > 0)
+                    if (conductor[0].dataValues && conductor[0].dataValues.id) {
+                        let info = {
+                            en: 1,
+                            id: conductor[0].dataValues.id,
+                            nombre: conductor[0].dataValues.nombre,
+                            apellido: conductor[0].dataValues.apellido,
+                        }
+                        var queue = 'enviarEmit';
+                        console.log('Enviando la información del conductor')
+                        rabbit.sendToQueue(queue, Buffer.from(JSON.stringify(info)), {
+                            persistent: true
+                        });
+                        console.log('Mensaje enviado')
+                    } else {
+                        var queue = 'enviarEmit';
+                        console.log('Enviando la información del conductor')
+                        rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1 })), {
+                            persistent: true
+                        });
+                        console.log('Mensaje enviado')
+                    }
+            })
+            .catch(error => {
+                console.log(error)
+                var queue = 'enviarEmit';
+                console.log('Enviando la información del conductor')
+                rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1 })), {
+                    persistent: true
+                });
+                console.log('Mensaje enviado')
+            })
     }
 
 }

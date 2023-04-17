@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors')
 require('dotenv').config({ path: 'default.env' })
 var amqp = require('amqplib/callback_api');
+const conductor = require('../controllers/autenticarConductor');
 
 const http = require('http');
 
@@ -25,6 +26,8 @@ app.use(cors({
 	credentials: true
 }))
 
+global.rabbit;
+
 amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connection) {
 	if (error0) {
 		console.log('ERROR NO SE PUDO CONECTARSE CON RABBIT')
@@ -39,22 +42,27 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 			throw error1;
 		}
 		rabbit = channel;
-		var queue = 'hello1';
+		var queue = 'enviarEmit';
 		var queue1 = 'asignarConductor';
 		var msg = 'Hola manolo';
 
-		channel.assertQueue(queue1, {
+		rabbit.assertQueue(queue1, {
+			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
+			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
+		});
+		rabbit.assertQueue(queue, {
 			// durable: false //En false si el servico de rabir se detiene por alguna razon se perderan los mensajes y las colas
 			durable: true //En true si el servico de rabir se detiene por alguna razon los mensajes y las colas se guardan en memoria
 		});
 
-		channel.consume(queue1, function (msg) {
+		rabbit.consume(queue1, function (msg) {
 			var secs = msg.content.toString().split('.').length - 1;
 			console.log('Recibiendo mensaje de Solicitud')
 			console.log(" Data recibida", msg.content.toString());
+			conductor.buscarCondcutorLibre();
 			setTimeout(function () {
 				console.log(" [x] Done");
-				channel.ack(msg); // ACK permite avisar a rabbit que el mensaje ya fue procesado y se puede eliminar
+				rabbit.ack(msg); // ACK permite avisar a rabbit que el mensaje ya fue procesado y se puede eliminar
 			}, 10000);
 		}, {
 			// noAck: true Una vez que llego el mensaje no se vuelve a notificar si pasa algo
