@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors')
 require('dotenv').config({ path: 'default.env' })
 var amqp = require('amqplib/callback_api');
-const conductor = require('../controllers/autenticarConductor');
+const conductor = require('controllers/autenticarConductor');
 
 const http = require('http');
 
