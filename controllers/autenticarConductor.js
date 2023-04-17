@@ -100,7 +100,7 @@ module.exports = {
                             persistent: true
                         });
                         console.log('Mensaje enviado')
-                        actualizarConductorEstado(conductor.id);
+                        actualizarConductorEstado(conductor[0].dataValues.id);
                     } else {
                         var queue = 'enviarEmit';
                         console.log('Enviando la información del conductor')
