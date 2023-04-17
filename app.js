@@ -63,7 +63,7 @@ amqp.connect('amqp://admin:admin@64.226.112.105:5672', function (error0, connect
 			console.log(b.idCliente)
 			var d = JSON.parse(msg.content.toString())
 			console.log(d)
-			conductor.buscarCondcutorLibre(d.idCliente);
+			conductor.buscarCondcutorLibre(d);
 			setTimeout(function () {
 				console.log(" [x] Done");
 				rabbit.ack(msg); // ACK permite avisar a rabbit que el mensaje ya fue procesado y se puede eliminar
